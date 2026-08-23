@@ -15,6 +15,7 @@ dependencies {
     implementation("com.esotericsoftware:kryo5:5.6.0")
     implementation("com.fasterxml.jackson.core:jackson-databind:2.22.1")
     implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-cbor:2.22.1")
+    implementation("com.fasterxml.jackson.module:jackson-module-afterburner:2.22.1")
 
     testImplementation("org.junit.jupiter:junit-jupiter:6.1.0")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
