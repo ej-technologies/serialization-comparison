@@ -1,8 +1,13 @@
+@file:Suppress("DEPRECATION_ERROR")
+
 import com.jprofiler.buildtools.CallTreeMode
 import com.jprofiler.gradle.TestProfile
 
 plugins {
     java
+    kotlin("jvm") version "2.4.10"
+    kotlin("plugin.serialization") version "2.4.10"
+    id("com.google.devtools.ksp") version "2.3.11"
     id("com.jprofiler") version "16.2"
 }
 
@@ -15,7 +20,13 @@ dependencies {
     implementation("com.esotericsoftware:kryo5:5.6.0")
     implementation("com.fasterxml.jackson.core:jackson-databind:2.22.1")
     implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-cbor:2.22.1")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.11.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-cbor:1.11.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-protobuf:1.11.0")
+    implementation("com.squareup.moshi:moshi:1.15.2")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.22.1")
     implementation("com.fasterxml.jackson.module:jackson-module-afterburner:2.22.1")
+    ksp("com.squareup.moshi:moshi-kotlin-codegen:1.15.2")
 
     testImplementation("org.junit.jupiter:junit-jupiter:6.1.0")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
@@ -41,11 +52,19 @@ val frameworks = mapOf(
     "Fory" to "com.example.serialization.ForySerializationTest",
     "Kryo" to "com.example.serialization.KryoSerializationTest",
     "Jackson" to "com.example.serialization.JacksonSerializationTest",
-    "JacksonCbor" to "com.example.serialization.JacksonCborSerializationTest"
+    "JacksonCbor" to "com.example.serialization.JacksonCborSerializationTest",
+    "Kotlin" to "com.example.serialization.KotlinSerializationTest",
+    "KotlinStream" to "com.example.serialization.KotlinStreamSerializationTest",
+    "KotlinCbor" to "com.example.serialization.KotlinCborSerializationTest",
+    "KotlinProtobuf" to "com.example.serialization.KotlinProtobufSerializationTest",
+    "Moshi" to "com.example.serialization.MoshiSerializationTest",
+    "JacksonKotlin" to "com.example.serialization.JacksonKotlinSerializationTest",
+    "MoshiJava" to "com.example.serialization.MoshiJavaSerializationTest",
+    "ForyKotlin" to "com.example.serialization.ForyKotlinSerializationTest"
 )
 
 fun profileTask(name: String, testClass: String, recording: String) {
-    tasks.create<TestProfile>("profile$name$recording") {
+    tasks.register<TestProfile>("profile$name$recording") {
         useJUnitPlatform()
         maxHeapSize = "2g"
         filter {

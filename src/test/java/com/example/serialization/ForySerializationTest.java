@@ -4,13 +4,18 @@ import com.example.serialization.model.Order;
 import org.apache.fory.Fory;
 import org.apache.fory.config.Language;
 
-public class ForySerializationTest extends AbstractSerializationTest {
+public class ForySerializationTest extends AbstractSerializationTest<Order> {
 
     private final Fory fory = Fory.builder()
             .withLanguage(Language.JAVA)
             .withRefTracking(true)
             .requireClassRegistration(false)
             .build();
+
+    @Override
+    protected java.util.List<Order> createDataset() {
+        return DatasetGenerator.create();
+    }
 
     @Override
     protected String frameworkName() {

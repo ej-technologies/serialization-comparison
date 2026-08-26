@@ -3,9 +3,14 @@ package com.example.serialization;
 import com.example.serialization.model.Order;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-public class JacksonSerializationTest extends AbstractSerializationTest {
+public class JacksonSerializationTest extends AbstractSerializationTest<Order> {
 
     private final ObjectMapper mapper = new ObjectMapper();
+
+    @Override
+    protected java.util.List<Order> createDataset() {
+        return DatasetGenerator.create();
+    }
 
     @Override
     protected String frameworkName() {

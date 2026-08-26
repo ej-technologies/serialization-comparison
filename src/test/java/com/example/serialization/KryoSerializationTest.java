@@ -5,7 +5,7 @@ import com.esotericsoftware.kryo.kryo5.io.Input;
 import com.esotericsoftware.kryo.kryo5.io.Output;
 import com.example.serialization.model.Order;
 
-public class KryoSerializationTest extends AbstractSerializationTest {
+public class KryoSerializationTest extends AbstractSerializationTest<Order> {
 
     private final Kryo kryo = new Kryo();
     private final Output output = new Output(64 * 1024, 16 * 1024 * 1024);
@@ -14,6 +14,11 @@ public class KryoSerializationTest extends AbstractSerializationTest {
     public KryoSerializationTest() {
         kryo.setRegistrationRequired(false);
         kryo.setReferences(true);
+    }
+
+    @Override
+    protected java.util.List<Order> createDataset() {
+        return DatasetGenerator.create();
     }
 
     @Override

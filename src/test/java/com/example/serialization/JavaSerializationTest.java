@@ -7,7 +7,12 @@ import java.io.ByteArrayOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
-public class JavaSerializationTest extends AbstractSerializationTest {
+public class JavaSerializationTest extends AbstractSerializationTest<Order> {
+
+    @Override
+    protected java.util.List<Order> createDataset() {
+        return DatasetGenerator.create();
+    }
 
     @Override
     protected String frameworkName() {
