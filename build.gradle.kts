@@ -8,15 +8,17 @@ plugins {
     kotlin("jvm") version "2.4.10"
     kotlin("plugin.serialization") version "2.4.10"
     id("com.google.devtools.ksp") version "2.3.11"
-    id("com.jprofiler") version "16.2"
+    id("com.jprofiler") version "16.2.1"
 }
 
 repositories {
     mavenCentral()
+    mavenLocal()
 }
 
 dependencies {
-    implementation("org.apache.fory:fory-core:1.6.0")
+    implementation("org.apache.fory:fory-core:1.7.0")
+    implementation("org.apache.fory:fory-json:1.7.0")
     implementation("com.esotericsoftware:kryo5:5.6.0")
     implementation("com.fasterxml.jackson.core:jackson-databind:2.22.1")
     implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-cbor:2.22.1")
@@ -26,6 +28,9 @@ dependencies {
     implementation("com.squareup.moshi:moshi:1.15.2")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.22.1")
     implementation("com.fasterxml.jackson.module:jackson-module-afterburner:2.22.1")
+    implementation("tools.jackson.core:jackson-databind:3.2.2")
+    implementation("tools.jackson.dataformat:jackson-dataformat-cbor:3.2.2")
+    implementation("tools.jackson.module:jackson-module-kotlin:3.2.2")
     ksp("com.squareup.moshi:moshi-kotlin-codegen:1.15.2")
 
     testImplementation("org.junit.jupiter:junit-jupiter:6.1.0")
@@ -50,9 +55,13 @@ tasks.test {
 val frameworks = mapOf(
     "Java" to "com.example.serialization.JavaSerializationTest",
     "Fory" to "com.example.serialization.ForySerializationTest",
+    "ForyJson" to "com.example.serialization.ForyJsonSerializationTest",
     "Kryo" to "com.example.serialization.KryoSerializationTest",
     "Jackson" to "com.example.serialization.JacksonSerializationTest",
     "JacksonCbor" to "com.example.serialization.JacksonCborSerializationTest",
+    "Jackson3" to "com.example.serialization.Jackson3SerializationTest",
+    "Jackson3Cbor" to "com.example.serialization.Jackson3CborSerializationTest",
+    "Jackson3Kotlin" to "com.example.serialization.Jackson3KotlinSerializationTest",
     "Kotlin" to "com.example.serialization.KotlinSerializationTest",
     "KotlinStream" to "com.example.serialization.KotlinStreamSerializationTest",
     "KotlinCbor" to "com.example.serialization.KotlinCborSerializationTest",
