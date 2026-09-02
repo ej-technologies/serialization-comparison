@@ -8,12 +8,22 @@ plugins {
     kotlin("jvm") version "2.4.10"
     kotlin("plugin.serialization") version "2.4.10"
     id("com.google.devtools.ksp") version "2.3.11"
+    id("me.champeau.jmh") version "0.7.3"
     id("com.jprofiler") version "16.2.1"
 }
 
 repositories {
     mavenCentral()
     mavenLocal()
+}
+
+jmh {
+    jmhVersion.set("1.37")
+    warmupIterations.set(5)
+    iterations.set(5)
+    fork.set(1)
+    timeOnIteration.set("1s")
+    warmup.set("1s")
 }
 
 dependencies {
