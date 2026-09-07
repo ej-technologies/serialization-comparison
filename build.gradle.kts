@@ -32,9 +32,9 @@ dependencies {
     implementation("com.esotericsoftware:kryo5:5.6.0")
     implementation("com.fasterxml.jackson.core:jackson-databind:2.22.1")
     implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-cbor:2.22.1")
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.11.0")
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-cbor:1.11.0")
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-protobuf:1.11.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.12.0-RC")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-cbor:1.12.0-RC")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-protobuf:1.12.0-RC")
     implementation("com.squareup.moshi:moshi:1.15.2")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.22.1")
     implementation("com.fasterxml.jackson.module:jackson-module-afterburner:2.22.1")
@@ -105,5 +105,4 @@ fun profileTask(name: String, testClass: String, recording: String) {
 
 frameworks.forEach { (name, testClass) ->
     profileTask(name, testClass,"cpu")
-    profileTask(name, testClass,"allocation")
 }
