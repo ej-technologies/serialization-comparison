@@ -29,6 +29,23 @@ public class DatasetGenerator {
         return new DatasetGenerator(42).generate();
     }
 
+    // JSON escapes, control chars, 2-byte, 3-byte and 4-byte UTF-8
+    private static final String[] HARD_TOKENS = {
+            "\"", "\\", "\n", "\t", "", "é", "ß", "ø", "漢", "字", "😀", "€"
+    };
+
+    private String harden(String s) {
+        StringBuilder builder = new StringBuilder(s.length() + 16);
+        for (int i = 0; i < s.length(); i++) {
+            if (random.nextInt(10) == 0) {
+                builder.append(HARD_TOKENS[random.nextInt(HARD_TOKENS.length)]);
+            } else {
+                builder.append(s.charAt(i));
+            }
+        }
+        return builder.toString();
+    }
+
     private List<Order> generate() {
         List<Category> categories = createCategories();
         List<Product> products = createProducts(categories);
@@ -56,7 +73,7 @@ public class DatasetGenerator {
     private List<Product> createProducts(List<Category> categories) {
         List<Product> products = new ArrayList<>();
         for (int i = 0; i < 200; i++) {
-            String name = pick(PRODUCT_WORDS) + " " + pick(PRODUCT_WORDS) + " " + (1000 + i);
+            String name = harden(pick(PRODUCT_WORDS) + " " + pick(PRODUCT_WORDS) + " " + (1000 + i));
             Set<String> tags = new LinkedHashSet<>();
             int tagCount = 2 + random.nextInt(4);
             for (int j = 0; j < tagCount; j++) {
@@ -67,7 +84,7 @@ public class DatasetGenerator {
             products.add(new Product(
                     "SKU-" + (100000 + i),
                     name,
-                    lorem(20 + random.nextInt(60)),
+                    harden(lorem(20 + random.nextInt(60))),
                     categories.get(random.nextInt(categories.size())),
                     BigDecimal.valueOf(199 + random.nextInt(50000)).movePointLeft(2),
                     50 + random.nextInt(20000),
@@ -89,8 +106,8 @@ public class DatasetGenerator {
             }
             customers.add(new Customer(
                     10000L + i,
-                    firstName,
-                    lastName,
+                    harden(firstName),
+                    harden(lastName),
                     firstName.toLowerCase() + "." + lastName.toLowerCase() + i + "@example.com",
                     new Date(500000000000L + random.nextInt(1_000_000_000) * 1000L),
                     random.nextInt(5) == 0,
@@ -101,8 +118,8 @@ public class DatasetGenerator {
 
     private Address createAddress() {
         return new Address(
-                pick(STREETS) + " " + (1 + random.nextInt(150)),
-                pick(CITIES),
+                harden(pick(STREETS)) + " " + (1 + random.nextInt(150)),
+                harden(pick(CITIES)),
                 String.format("%05d", random.nextInt(100000)),
                 "Germany");
     }
@@ -122,7 +139,7 @@ public class DatasetGenerator {
         Map<String, String> attributes = new LinkedHashMap<>();
         int attributeCount = 2 + random.nextInt(5);
         for (int i = 0; i < attributeCount; i++) {
-            attributes.put(pick(ATTRIBUTE_KEYS) + i, lorem(1 + random.nextInt(3)));
+            attributes.put(pick(ATTRIBUTE_KEYS) + i, harden(lorem(1 + random.nextInt(3))));
         }
         return new Order(
                 "ORD-2026-" + String.format("%06d", index),
@@ -132,7 +149,7 @@ public class DatasetGenerator {
                 new Date(1_750_000_000_000L + random.nextInt(30_000_000) * 1000L),
                 customer.getAddresses().getFirst(),
                 attributes,
-                random.nextInt(3) == 0 ? lorem(10 + random.nextInt(40)) : null);
+                random.nextInt(3) == 0 ? harden(lorem(10 + random.nextInt(40))) : null);
     }
 
     private String pick(String[] values) {
